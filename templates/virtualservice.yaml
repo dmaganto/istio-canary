@@ -1,0 +1,26 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: {{ include "app.fullname" . }}-vs
+spec:
+  hosts:
+  - "myapp.dmaganto.es"
+  gateways:
+  - {{ include "app.fullname" . }}-gw
+  http:
+  - match:
+    - uri:
+        prefix: "/"
+    route:
+    - destination:
+        host: {{ include "app.fullname" . }}
+        port:
+          number: {{ .Values.Common.service.port }}
+        subset: production
+      weight: {{ .Values.Production.weight }}
+    - destination:
+        host: {{ include "app.fullname" . }}
+        port:
+          number: {{ .Values.Common.service.port }}
+        subset: canary
+      weight: {{ .Values.Canary.weight }}
