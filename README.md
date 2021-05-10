@@ -1,6 +1,14 @@
 # istio-canary
 istio-canary-deployment using custom helm chart
 
+
+## Release chart
+To release chart as a artifact in github we could use chart-releaser, follow install process (https://github.com/helm/chart-releaser)
+```
+TOKEN=_YOUR-GITHUB-TOKEN_
+cr package istio-canary/ -p packages/
+cr upload -o dmaganto -p packages/ -r istio-canary -t $TOKEN
+```
 ## Canary Deploy 
 ```
 helm upgrade myapp ./ -f values.yaml --install --wait --atomic
